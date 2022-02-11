@@ -1,0 +1,73 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dD:/EKF_SLAM/EKF_SLAM_RTL/sims/PE_MAC
+T_opt
+!s110 1644296544
+V?HTB4G5_?EG_nCkcEiR4;1
+Z1 04 6 4 work BCD_tb fast 0
+=1-145afc4056d5-6201f960-59-21ec
+o-quiet -auto_acc_if_foreign -work work
+Z2 tCvgOpt 0
+n@_opt
+Z3 OL;O;10.5;63
+R0
+T_opt1
+!s110 1644296842
+VlTiiQifINc>@4l@V83hTk1
+R1
+=1-145afc4056d5-6201fa8a-1ab-2614
+o-quiet -auto_acc_if_foreign -work work +acc
+R2
+n@_opt1
+R3
+vBCD
+Z4 !s110 1644296535
+!i10b 1
+!s100 P[4CCg?TiG8MYeFI37J1C2
+IP4N5J=7UlfIG9G>31fk6n2
+Z5 VDg1SIo80bB@j0V0VzS_@n1
+Z6 dD:/EKF_SLAM/EKF_SLAM_RTL/sims/BCD
+w1644296517
+8D:/EKF_SLAM/EKF_SLAM_RTL/sims/BCD/BCD.v
+FD:/EKF_SLAM/EKF_SLAM_RTL/sims/BCD/BCD.v
+L0 1
+Z7 OL;L;10.5;63
+r1
+!s85 0
+31
+Z8 !s108 1644296535.000000
+!s107 D:/EKF_SLAM/EKF_SLAM_RTL/sims/BCD/BCD.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:/EKF_SLAM/EKF_SLAM_RTL/sims/BCD/BCD.v|
+!i113 0
+Z9 o-work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R2
+n@b@c@d
+vBCD_tb
+R4
+!i10b 1
+!s100 ;2R;oHIjSWB6AQ6gJ@KHg3
+I6jVWo8Q_MeRUSYnkP_c;73
+R5
+R6
+w1644296533
+8D:/EKF_SLAM/EKF_SLAM_RTL/sims/BCD/BCD_tb.v
+FD:/EKF_SLAM/EKF_SLAM_RTL/sims/BCD/BCD_tb.v
+L0 2
+R7
+r1
+!s85 0
+31
+R8
+!s107 D:/EKF_SLAM/EKF_SLAM_RTL/sims/BCD/BCD_tb.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:/EKF_SLAM/EKF_SLAM_RTL/sims/BCD/BCD_tb.v|
+!i113 0
+R9
+R2
+n@b@c@d_tb
