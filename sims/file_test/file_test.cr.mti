@@ -1,9 +1,8 @@
-C:/Users/KevinZ/Desktop/v7.2_fifo_io/v7.2_fifo_io/test.v {0 {vlog -work work -vopt -stats=none C:/Users/KevinZ/Desktop/v7.2_fifo_io/v7.2_fifo_io/test.v
+C:/Users/KevinZ/Desktop/v7.2_fifo_io/v7.2_fifo_io/test.v {1 {vlog -work work -vopt -stats=none C:/Users/KevinZ/Desktop/v7.2_fifo_io/v7.2_fifo_io/test.v
 Model Technology ModelSim SE-64 vlog 10.5 Compiler 2016.02 Feb 13 2016
 -- Compiling module test
-** Error: (vlog-13036) C:/Users/KevinZ/Desktop/v7.2_fifo_io/v7.2_fifo_io/test.v(89): near "++": Operator only allowed in SystemVerilog.
-** Error: (vlog-13036) C:/Users/KevinZ/Desktop/v7.2_fifo_io/v7.2_fifo_io/test.v(116): near "++": Operator only allowed in SystemVerilog.
-** Error: (vlog-13036) C:/Users/KevinZ/Desktop/v7.2_fifo_io/v7.2_fifo_io/test.v(138): near "++": Operator only allowed in SystemVerilog.
-** Error: (vlog-13036) C:/Users/KevinZ/Desktop/v7.2_fifo_io/v7.2_fifo_io/test.v(142): near "++": Operator only allowed in SystemVerilog.
 
-} {4.0 8.0} {}}
+Top level modules:
+	test
+
+} {} {}}

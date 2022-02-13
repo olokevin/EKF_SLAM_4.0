@@ -39,6 +39,8 @@ module sync_fifo
         else if(rd_en && empty == 0)begin
             data_out <= fifo[rd_addr]; 
         end
+        else
+            data_out <= 0;
     end
 
     //写操作
@@ -85,48 +87,81 @@ module sync_fifo
         cnt==DEPTH-2 {10} ->  full==1
     */
     always @(posedge clk or negedge sys_rst_n) begin
-        if(!sys_rst_n)  begin
+        if(!sys_rst_n)
             count <= 0;
-        end
-        else  begin
+        else begin
             case({wr_en,rd_en})
-                2'b00: begin
-                    count <= count;
-                    empty <= 0;
-                    full <= 0;
-                end
-                2'b01: begin
-                    if(count > 1) begin
-                        count <= count-1;
-                        empty <= 0;
-                        full <= 0;
-                    end
-                    else if(count <= 1) begin
-                        count <= 0;
-                        empty <= 1;
-                        full <= 0;
-                    end
-                end
-                2'b10: begin
-                    if(count < DEPTH-2) begin
-                        count <= count+1;
-                        full <= 0;
-                        empty <= 0;
-                    end
-                    else if(count >+ DEPTH-2) begin
-                        count <= DEPTH-1;
-                        full <= 1;
-                        empty <= 0;
-                    end
-                end
-                2'b11:  begin
-                    count<=count;
-                    empty <= 0;
-                    full <= 0;
-                end
+            2'b00: count <= count;
+            2'b01: 
+                if(count!==0)
+                    count <= count - 1;
+            2'b10:
+                if(count!==DEPTH)
+                    count <= count + 1;
+            2'b11:
+                count <= count;
             endcase
-        end
+        end        
     end
+
+    always @(count) begin
+        if(count == 0)
+            empty = 1;
+        else
+            empty = 0;
+    end
+
+    always @(count) begin
+        if(count == DEPTH)
+            full = 1;
+        else
+            full = 0;
+    end
+
+    // //同步式
+    // always @(posedge clk or negedge sys_rst_n) begin
+    //     if(!sys_rst_n)  begin
+    //         count <= 0;
+    //     end
+    //     else  begin
+    //         case({wr_en,rd_en})
+    //             2'b00: begin
+    //                 count <= count;
+    //                 empty <= 0;
+    //                 full <= 0;
+    //             end
+    //             2'b01: begin
+    //                 if(count > 1) begin
+    //                     count <= count-1;
+    //                     empty <= 0;
+    //                     full <= 0;
+    //                 end
+    //                 else if(count <= 1) begin
+    //                     count <= 0;
+    //                     empty <= 1;
+    //                     full <= 0;
+    //                 end
+    //             end
+    //             2'b10: begin
+    //                 if(count < DEPTH-2) begin
+    //                     count <= count+1;
+    //                     full <= 0;
+    //                     empty <= 0;
+    //                 end
+    //                 else if(count >+ DEPTH-2) begin
+    //                     count <= DEPTH-1;
+    //                     full <= 1;
+    //                     empty <= 0;
+    //                 end
+    //             end
+    //             2'b11:  begin
+    //                 count<=count;
+    //                 empty <= 0;
+    //                 full <= 0;
+    //             end
+    //         endcase
+    //     end
+    // end
 
     //产生full empty信号
     // always @(posedge clk or negedge sys_rst_n) begin

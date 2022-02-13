@@ -18,6 +18,7 @@ module RSA
     input [IN_LEN:1]    Xin_data,
     input               Yin_val,
     input [IN_LEN:1]    Yin_data,
+    input               out_rdy,
 
     // output              out_val,
     output [OUT_LEN:1]  out_data
@@ -41,22 +42,36 @@ wire    [Y*IN_LEN*X:1]    northin;
 wire    [X*Y:1]           dout_val;
 wire    [X*OUT_LEN*Y:1]   dout;
 
-//输入数据buffer
-reg [IN_LEN:1]    Xin_buffer;
-reg [IN_LEN:1]    Yin_buffer;
+//输入数据buffer 需延迟两个时钟
+reg [IN_LEN:1]    Xin_r1, Xin_r2;
+reg [IN_LEN:1]    Yin_r1, Yin_r2;
 always @(posedge clk or negedge sys_rst_n) begin
-    if(!sys_rst_n)
-        Xin_buffer <= 0;
-    else 
-        Xin_buffer <= Xin_data;
+    if(!sys_rst_n) begin
+        Xin_r1 <= 0;
+        Xin_r2 <= 0;
+    end
+    else begin
+        Xin_r1 <= Xin_data;
+        Xin_r2 <= Xin_r1;
+    end
 end
 
 always @(posedge clk or negedge sys_rst_n) begin
-    if(!sys_rst_n)
-        Yin_buffer <= 0;
-    else 
-        Yin_buffer <= Yin_data;
+    if(!sys_rst_n) begin
+        Yin_r1 <= 0;
+        Yin_r2 <= 0;
+    end
+    else begin
+        Yin_r1 <= Yin_data;
+        Yin_r2 <= Yin_r1;
+    end
 end
+
+//取消使能
+wire din_val_gnd;
+wire [OUT_LEN:1] din_gnd;
+assign din_val_gnd = 1'b0;
+assign din_gnd = 0;
 
 PE_config 
 #(
@@ -89,10 +104,10 @@ u_RSA_port(
     .sys_rst_n     (sys_rst_n     ),
     .Xin_val       (Xin_val       ),
     .Yin_val       (Yin_val       ),
-    .out_val       (dout_val[(X-1)*Y+1]       ),
-    .westin_wr_en  (westin_wr_en[1]  ),
-    .northin_wr_en (northin_wr_en[1] ),
-    .out_rd_en     (out_rd_en[1]     )
+    .out_val       (out_rdy      ),
+    .westin_wr_en  (westin_wr_en  ),
+    .northin_wr_en (northin_wr_en ),
+    .out_rd_en     (out_rd_en     )
 );
 
 //X输入fifo
@@ -111,7 +126,7 @@ generate
             .sys_rst_n (sys_rst_n ),
             .wr_en     (westin_wr_en[i]     ),
             .rd_en     (westin_rd_en[i]     ),
-            .data_in   (Xin_buffer   ),
+            .data_in   (Xin_r1   ),
             .data_out  (westin[IN_LEN*((i-1)*Y+1):IN_LEN*((i-1)*Y)+1]  ),   //j=1
             .n_rd_en   (westin_rd_en[i+1]   ),
             .empty     (     ),
@@ -135,7 +150,7 @@ generate
             .sys_rst_n (sys_rst_n ),
             .wr_en     (northin_wr_en[j]     ),
             .rd_en     (northin_rd_en[j]     ),
-            .data_in   (Yin_data   ),
+            .data_in   (Yin_r1   ),
             .data_out  (northin[IN_LEN*j:IN_LEN*(j-1)+1]  ),  //i=1
             .n_rd_en   (northin_rd_en[j+1]   ),
             .empty     (     ),
@@ -147,8 +162,24 @@ generate
 endgenerate
 
 //out_fifo 接在最左一行 j=1
+//三态门  bufif1 (OUTX1, IN1, CTRL) ;
+wire [OUT_LEN*X : 1] out_fifo_data;
+reg [X:1] out_rd_en_r;
+//延迟一个时钟，作为三态门使能端
+always @(posedge clk or negedge sys_rst_n) begin
+    if(!sys_rst_n)
+        out_rd_en_r <= 0;
+    else 
+        out_rd_en_r <= out_rd_en;
+end
+
+genvar n;
+
 generate
     for(i=1; i<=X; i=i+1) begin:out_fifo
+        for(n=1; n<=OUT_LEN; n=n+1) begin:out_fifo_tri
+            bufif1 (out_data[n], out_fifo_data[OUT_LEN*(i-1)+n], out_rd_en_r[i]) ;
+        end
        sync_fifo 
         #(
             .DATA_LEN   (OUT_LEN   ),
@@ -161,7 +192,7 @@ generate
             .wr_en     (dout_val[(i-1)*Y+1]    ),
             .rd_en     (out_rd_en[i]     ),
             .data_in   (dout[ OUT_LEN*((i-1)*Y+1) : OUT_LEN*((i-1)*Y) + 1 ]   ),
-            .data_out  (out_data  ),  //i=1
+            .data_out  (out_fifo_data[OUT_LEN*i : OUT_LEN*(i-1)+1]  ),  //i=1
             .n_rd_en   (  ),          //输出的读出使能直接由RSA_port控制
             .empty     (     ),
             .full      (      )
@@ -177,7 +208,7 @@ generate
         //第(i,j)个PE sig:  [(i-1)*Y+j]
             //第一行 cal_en cal_done
             //第一列的cal_en cal_done来自该列上一列 j-1
-            if(i==1) begin
+            if(i==1 && j!=Y) begin
                 PE_MAC 
                 #(
                     .N       (N       ),
@@ -196,6 +227,31 @@ generate
                     .n_cal_en   (n_cal_en[(i-1)*Y+j]   ),
                     .n_cal_done (n_cal_done[(i-1)*Y+j] ),
                     .eastout    (westin[IN_LEN*((i-1)*Y+j+1) : IN_LEN*((i-1)*Y+j)+1]    ),
+                    .southout   (northin[IN_LEN*(i*Y+j) : IN_LEN*(i*Y+j-1)+1]   ),
+                    .dout_val   (dout_val[(i-1)*Y+j]   ),  
+                    .dout       (dout[OUT_LEN*((i-1)*Y+j) : OUT_LEN*((i-1)*Y+j-1)+1]       )
+                );
+            end
+            //第一行的最后一个，没有din din_val eastout
+            else if(i==1 && j==Y) begin
+                PE_MAC 
+                #(
+                    .N       (N       ),
+                    .IN_LEN  (IN_LEN  ),
+                    .OUT_LEN (OUT_LEN )
+                )
+                u_PE_MAC(
+                    .clk        (clk        ),
+                    .sys_rst_n  (sys_rst_n  ),
+                    .cal_en     (n_cal_en[j-1]     ),  //第一列的cal_en cal_done来自该列上一列 j-1
+                    .cal_done   (n_cal_done[j-1]   ),
+                    .westin     (westin[IN_LEN*((i-1)*Y+j) : IN_LEN*((i-1)*Y+j-1)+1]     ),
+                    .northin    (northin[IN_LEN*((i-1)*Y+j) : IN_LEN*((i-1)*Y+j-1)+1]    ),
+                    .din_val    (din_val_gnd   ),
+                    .din        (din_gnd      ),
+                    .n_cal_en   (n_cal_en[(i-1)*Y+j]   ),
+                    .n_cal_done (n_cal_done[(i-1)*Y+j] ),
+                    .eastout    (    ),
                     .southout   (northin[IN_LEN*(i*Y+j) : IN_LEN*(i*Y+j-1)+1]   ),
                     .dout_val   (dout_val[(i-1)*Y+j]   ),  
                     .dout       (dout[OUT_LEN*((i-1)*Y+j) : OUT_LEN*((i-1)*Y+j-1)+1]       )
@@ -266,8 +322,8 @@ generate
                     .cal_done   (n_cal_done[(i-2)*Y+j]   ),
                     .westin     (westin[IN_LEN*((i-1)*Y+j) : IN_LEN*((i-1)*Y+j-1)+1]     ),  //westin，northin，按PE模块位置设置
                     .northin    (northin[IN_LEN*((i-1)*Y+j) : IN_LEN*((i-1)*Y+j-1)+1]    ),
-                    .din_val    (0    ),    
-                    .din        (0   ),
+                    .din_val    (din_val_gnd    ),    
+                    .din        (din_gnd  ),
                     .n_cal_en   (n_cal_en[(i-1)*Y+j]   ),       
                     .n_cal_done (n_cal_done[(i-1)*Y+j] ),
                     .eastout    (    ),  //eastout传到右边 j+1
@@ -291,8 +347,8 @@ generate
                     .cal_done   (n_cal_done[(i-2)*Y+j]   ),
                     .westin     (westin[IN_LEN*((i-1)*Y+j) : IN_LEN*((i-1)*Y+j-1)+1]     ),  //westin，northin，按PE模块位置设置
                     .northin    (northin[IN_LEN*((i-1)*Y+j) : IN_LEN*((i-1)*Y+j-1)+1]    ),
-                    .din_val    (0    ),    
-                    .din        (0   ),
+                    .din_val    (din_val_gnd    ),    
+                    .din        (din_gnd   ),
                     .n_cal_en   (   ),       
                     .n_cal_done ( ),
                     .eastout    (    ),  //eastout传到右边 j+1

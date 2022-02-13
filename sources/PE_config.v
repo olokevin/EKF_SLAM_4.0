@@ -14,8 +14,7 @@ module PE_config #(
     output  reg      cal_done,
     // output  reg      in_wr_en,      
     output  reg      westin_rd_en,  //输入，与N有关 westin和northin都是存N个数据
-    output  reg      northin_rd_en,
-    output  reg      out_rd_en
+    output  reg      northin_rd_en
 );
     reg     SA_work;
     reg     [N-1:0]         sum_cnt; 
@@ -35,9 +34,11 @@ module PE_config #(
     //计数器
     always @(posedge clk or negedge sys_rst_n) begin
         if(!sys_rst_n)
-            sum_cnt <= 0;       
+            sum_cnt <= 0;     
         else if(SA_work == 1'b1)    
             sum_cnt <= sum_cnt + 1'b1;
+        else
+            sum_cnt <= 0;  
     end
 
     //westin_rd_en
@@ -46,6 +47,8 @@ module PE_config #(
             westin_rd_en <= 0;
         else if(SA_work == 1'b1 && sum_cnt < N)
             westin_rd_en <= 1'b1;
+        else
+            westin_rd_en <= 1'b0;
     end
 
     //northin_rd_en
@@ -54,14 +57,16 @@ module PE_config #(
             northin_rd_en <= 0;
         else if(SA_work == 1'b1 && sum_cnt < N)
             northin_rd_en <= 1'b1;
+        else
+            northin_rd_en <= 1'b0;
     end
     
     //cal_en
     always @(posedge clk or negedge sys_rst_n) begin
         if(!sys_rst_n)
             cal_en <= 0;
-        else if(sum_cnt >= 1 && sum_cnt <= N+1)
-            cal_en <= 1;
+        else if(sum_cnt >= 1 && sum_cnt <= N)
+            cal_en <= 1'b1;
         else
             cal_en <= 1'b0;
     end

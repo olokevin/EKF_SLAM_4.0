@@ -50,7 +50,7 @@ module PE_MAC
         if(!sys_rst_n)  begin
             dout <= 0; 
         end
-        else if(cal_en == 1'b1 && cal_done != 1'b1)
+        else if(cal_en == 1'b1)
             dout <= dout + westin * northin;
         else if(din_val == 1'b1)
             dout <= din;
@@ -66,6 +66,8 @@ module PE_MAC
         else if(cal_done == 1'b1 || din_val == 1) begin
             dout_val <= 1'b1;
         end
+        else
+            dout_val <= 1'b0;
     end
 
     //eastout 行数据复用
@@ -76,6 +78,8 @@ module PE_MAC
         else if(cal_en == 1'b1) begin
             eastout <= westin;
         end
+        else
+            eastout <= 0;
     end
 
     //southout 列数据复用
@@ -86,5 +90,7 @@ module PE_MAC
         else if(cal_en == 1'b1) begin
             southout <= northin;
         end
+        else
+            southout <= 0;
     end
 endmodule
