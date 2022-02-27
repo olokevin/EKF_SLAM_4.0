@@ -1,0 +1,403 @@
+#-----------------------------------------------------------
+# Vivado v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Sun Feb 27 11:26:00 2022
+# Process ID: 15676
+# Current directory: D:/EKF_SLAM/EKF_SLAM_RTL/RSA/RSA.runs/synth_1
+# Command line: vivado.exe -log RSA.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source RSA.tcl
+# Log file: D:/EKF_SLAM/EKF_SLAM_RTL/RSA/RSA.runs/synth_1/RSA.vds
+# Journal file: D:/EKF_SLAM/EKF_SLAM_RTL/RSA/RSA.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source RSA.tcl -notrace
+Command: synth_design -top RSA -part xc7a100tcsg324-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a100t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a100t'
+INFO: [Device 21-403] Loading part xc7a100tcsg324-1
+INFO: Launching helper process for spawning children vivado processes
+INFO: Helper process launched with PID 6844 
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 831.422 ; gain = 177.750
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'RSA' [D:/EKF_SLAM/EKF_SLAM_RTL/sources/RSA.v:1]
+	Parameter X bound to: 3 - type: integer 
+	Parameter N bound to: 4 - type: integer 
+	Parameter Y bound to: 3 - type: integer 
+	Parameter IN_LEN bound to: 8 - type: integer 
+	Parameter OUT_LEN bound to: 8 - type: integer 
+	Parameter ADDR_WIDTH bound to: 2 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'sync_fifo' [D:/EKF_SLAM/EKF_SLAM_RTL/sources/sync_fifo.v:1]
+	Parameter DATA_LEN bound to: 8 - type: integer 
+	Parameter DEPTH bound to: 4 - type: integer 
+	Parameter ADDR_WIDTH bound to: 2 - type: integer 
+WARNING: [Synth 8-589] replacing case/wildcard equality operator !== with logical equality operator != [D:/EKF_SLAM/EKF_SLAM_RTL/sources/sync_fifo.v:102]
+WARNING: [Synth 8-589] replacing case/wildcard equality operator !== with logical equality operator != [D:/EKF_SLAM/EKF_SLAM_RTL/sources/sync_fifo.v:105]
+INFO: [Synth 8-6155] done synthesizing module 'sync_fifo' (1#1) [D:/EKF_SLAM/EKF_SLAM_RTL/sources/sync_fifo.v:1]
+INFO: [Synth 8-6157] synthesizing module 'PE_MAC' [D:/EKF_SLAM/EKF_SLAM_RTL/sources/PE_MAC.v:1]
+	Parameter N bound to: 4 - type: integer 
+	Parameter IN_LEN bound to: 8 - type: integer 
+	Parameter OUT_LEN bound to: 8 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'PE_MAC' (2#1) [D:/EKF_SLAM/EKF_SLAM_RTL/sources/PE_MAC.v:1]
+INFO: [Synth 8-6157] synthesizing module 'PE_config' [D:/EKF_SLAM/EKF_SLAM_RTL/sources/PE_config.v:1]
+	Parameter X bound to: 3 - type: integer 
+	Parameter N bound to: 4 - type: integer 
+	Parameter Y bound to: 3 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'PE_config' (3#1) [D:/EKF_SLAM/EKF_SLAM_RTL/sources/PE_config.v:1]
+INFO: [Synth 8-6157] synthesizing module 'RSA_port' [D:/EKF_SLAM/EKF_SLAM_RTL/sources/RSA_port.v:1]
+	Parameter X bound to: 3 - type: integer 
+	Parameter N bound to: 4 - type: integer 
+	Parameter Y bound to: 3 - type: integer 
+	Parameter IN_LEN bound to: 8 - type: integer 
+	Parameter OUT_LEN bound to: 8 - type: integer 
+	Parameter ADDR_WIDTH bound to: 2 - type: integer 
+INFO: [Synth 8-6155] done synthesizing module 'RSA_port' (4#1) [D:/EKF_SLAM/EKF_SLAM_RTL/sources/RSA_port.v:1]
+WARNING: [Synth 8-6014] Unused sequential element Xin_r2_reg was removed.  [D:/EKF_SLAM/EKF_SLAM_RTL/sources/RSA.v:51]
+WARNING: [Synth 8-6014] Unused sequential element Yin_r2_reg was removed.  [D:/EKF_SLAM/EKF_SLAM_RTL/sources/RSA.v:62]
+INFO: [Synth 8-6155] done synthesizing module 'RSA' (5#1) [D:/EKF_SLAM/EKF_SLAM_RTL/sources/RSA.v:1]
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 894.551 ; gain = 240.879
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 894.551 ; gain = 240.879
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:07 ; elapsed = 00:00:08 . Memory (MB): peak = 894.551 ; gain = 240.879
+---------------------------------------------------------------------------------
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [D:/EKF_SLAM/EKF_SLAM_RTL/RSA/RSA.srcs/constrs_1/new/Nexys4_DDR.xdc]
+Finished Parsing XDC File [D:/EKF_SLAM/EKF_SLAM_RTL/RSA/RSA.srcs/constrs_1/new/Nexys4_DDR.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [D:/EKF_SLAM/EKF_SLAM_RTL/RSA/RSA.srcs/constrs_1/new/Nexys4_DDR.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/RSA_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/RSA_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1017.109 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.014 . Memory (MB): peak = 1017.109 ; gain = 0.000
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 1017.109 ; gain = 363.438
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a100tcsg324-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 1017.109 ; gain = 363.438
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 1017.109 ; gain = 363.438
+---------------------------------------------------------------------------------
+INFO: [Synth 8-4471] merging register 'northin_rd_en_reg' into 'westin_rd_en_reg' [D:/EKF_SLAM/EKF_SLAM_RTL/sources/PE_config.v:57]
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:16 ; elapsed = 00:00:17 . Memory (MB): peak = 1017.109 ; gain = 363.438
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      4 Bit       Adders := 3     
+	   2 Input      3 Bit       Adders := 19    
+	   2 Input      2 Bit       Adders := 18    
++---Registers : 
+	                8 Bit    Registers := 74    
+	                4 Bit    Registers := 3     
+	                3 Bit    Registers := 14    
+	                2 Bit    Registers := 18    
+	                1 Bit    Registers := 43    
++---Muxes : 
+	   4 Input      8 Bit        Muxes := 9     
+	   2 Input      8 Bit        Muxes := 45    
+	   2 Input      4 Bit        Muxes := 5     
+	   2 Input      3 Bit        Muxes := 8     
+	   4 Input      3 Bit        Muxes := 9     
+	   2 Input      1 Bit        Muxes := 58    
+	   4 Input      1 Bit        Muxes := 9     
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Hierarchical Component Statistics 
+---------------------------------------------------------------------------------
+Hierarchical RTL Component report 
+Module RSA 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 2     
+	                3 Bit    Registers := 1     
+Module PE_config 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      4 Bit       Adders := 1     
++---Registers : 
+	                4 Bit    Registers := 1     
+	                1 Bit    Registers := 4     
++---Muxes : 
+	   2 Input      4 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 2     
+Module RSA_port 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      4 Bit       Adders := 2     
+	   2 Input      3 Bit       Adders := 1     
++---Registers : 
+	                4 Bit    Registers := 2     
+	                3 Bit    Registers := 4     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   2 Input      4 Bit        Muxes := 4     
+	   2 Input      3 Bit        Muxes := 8     
+	   2 Input      1 Bit        Muxes := 2     
+Module sync_fifo 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      3 Bit       Adders := 2     
+	   2 Input      2 Bit       Adders := 2     
++---Registers : 
+	                8 Bit    Registers := 5     
+	                3 Bit    Registers := 1     
+	                2 Bit    Registers := 2     
+	                1 Bit    Registers := 1     
++---Muxes : 
+	   4 Input      8 Bit        Muxes := 1     
+	   2 Input      8 Bit        Muxes := 1     
+	   4 Input      3 Bit        Muxes := 1     
+	   4 Input      1 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 6     
+Module PE_MAC 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 3     
+	                1 Bit    Registers := 3     
++---Muxes : 
+	   2 Input      8 Bit        Muxes := 4     
+---------------------------------------------------------------------------------
+Finished RTL Hierarchical Component Statistics
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 240 (col length:80)
+BRAMs: 270 (col length: RAMB18 80 RAMB36 40)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+Warning: Parallel synthesis criteria is not met 
+INFO: [Synth 8-3886] merging instance 'PE_MAC_X[2].PE_MAC_Y[3].u_PE_MAC/n_cal_done_reg' (FDC) to 'PE_MAC_X[2].PE_MAC_Y[3].u_PE_MAC/dout_val_reg'
+INFO: [Synth 8-3886] merging instance 'PE_MAC_X[1].PE_MAC_Y[3].u_PE_MAC/n_cal_done_reg' (FDC) to 'PE_MAC_X[1].PE_MAC_Y[3].u_PE_MAC/dout_val_reg'
+INFO: [Synth 8-3886] merging instance 'PE_MAC_X[3].PE_MAC_Y[3].u_PE_MAC/n_cal_done_reg' (FDC) to 'PE_MAC_X[3].PE_MAC_Y[3].u_PE_MAC/dout_val_reg'
+INFO: [Synth 8-3886] merging instance 'u_RSA_port/Xin_cnt_reg[2]' (FDC) to 'u_RSA_port/Xin_cnt_reg[3]'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (u_RSA_port/\Xin_cnt_reg[3] )
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:20 ; elapsed = 00:00:22 . Memory (MB): peak = 1017.109 ; gain = 363.438
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:29 ; elapsed = 00:00:32 . Memory (MB): peak = 1017.109 ; gain = 363.438
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:30 ; elapsed = 00:00:33 . Memory (MB): peak = 1017.879 ; gain = 364.207
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+INFO: [Synth 8-3886] merging instance 'PE_MAC_X[1].PE_MAC_Y[3].u_PE_MAC/n_cal_en_reg' (FDC) to 'PE_MAC_X[2].PE_MAC_Y[2].u_PE_MAC/n_cal_en_reg'
+INFO: [Synth 8-3886] merging instance 'in_fifo_Y[1].u_sync_fifo/n_rd_en_reg' (FDC) to 'in_fifo_X[1].u_sync_fifo/n_rd_en_reg'
+INFO: [Synth 8-3886] merging instance 'in_fifo_X[2].u_sync_fifo/n_rd_en_reg' (FDC) to 'in_fifo_Y[2].u_sync_fifo/n_rd_en_reg'
+INFO: [Synth 8-3886] merging instance 'PE_MAC_X[1].PE_MAC_Y[2].u_PE_MAC/n_cal_en_reg' (FDC) to 'PE_MAC_X[2].PE_MAC_Y[1].u_PE_MAC/n_cal_en_reg'
+INFO: [Synth 8-3886] merging instance 'PE_MAC_X[2].PE_MAC_Y[2].u_PE_MAC/n_cal_done_reg' (FDC) to 'PE_MAC_X[1].PE_MAC_Y[3].u_PE_MAC/dout_val_reg'
+INFO: [Synth 8-3886] merging instance 'PE_MAC_X[1].PE_MAC_Y[2].u_PE_MAC/n_cal_done_reg' (FDC) to 'PE_MAC_X[2].PE_MAC_Y[1].u_PE_MAC/n_cal_done_reg'
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\u_RSA_port/out_cnt_reg[2] )
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:31 ; elapsed = 00:00:34 . Memory (MB): peak = 1017.879 ; gain = 364.207
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:34 ; elapsed = 00:00:37 . Memory (MB): peak = 1030.879 ; gain = 377.207
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:34 ; elapsed = 00:00:37 . Memory (MB): peak = 1030.879 ; gain = 377.207
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:34 ; elapsed = 00:00:37 . Memory (MB): peak = 1030.879 ; gain = 377.207
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:34 ; elapsed = 00:00:37 . Memory (MB): peak = 1030.879 ; gain = 377.207
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:34 ; elapsed = 00:00:37 . Memory (MB): peak = 1030.879 ; gain = 377.207
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:34 ; elapsed = 00:00:37 . Memory (MB): peak = 1030.879 ; gain = 377.207
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+-------+------+
+|      |Cell   |Count |
++------+-------+------+
+|1     |BUFG   |     1|
+|2     |CARRY4 |    72|
+|3     |LUT1   |     9|
+|4     |LUT2   |   260|
+|5     |LUT3   |    57|
+|6     |LUT4   |    73|
+|7     |LUT5   |   190|
+|8     |LUT6   |   285|
+|9     |FDCE   |   655|
+|10    |IBUF   |    22|
+|11    |OBUFT  |     8|
++------+-------+------+
+
+Report Instance Areas: 
++------+-------------------------------------+-------------+------+
+|      |Instance                             |Module       |Cells |
++------+-------------------------------------+-------------+------+
+|1     |top                                  |             |  1632|
+|2     |  \PE_MAC_X[1].PE_MAC_Y[1].u_PE_MAC  |PE_MAC       |   115|
+|3     |  \PE_MAC_X[1].PE_MAC_Y[2].u_PE_MAC  |PE_MAC_0     |    65|
+|4     |  \PE_MAC_X[1].PE_MAC_Y[3].u_PE_MAC  |PE_MAC_1     |    50|
+|5     |  \PE_MAC_X[2].PE_MAC_Y[1].u_PE_MAC  |PE_MAC_2     |   117|
+|6     |  \PE_MAC_X[2].PE_MAC_Y[2].u_PE_MAC  |PE_MAC_3     |   102|
+|7     |  \PE_MAC_X[2].PE_MAC_Y[3].u_PE_MAC  |PE_MAC_4     |    52|
+|8     |  \PE_MAC_X[3].PE_MAC_Y[1].u_PE_MAC  |PE_MAC_5     |    53|
+|9     |  \PE_MAC_X[3].PE_MAC_Y[2].u_PE_MAC  |PE_MAC_6     |    63|
+|10    |  \PE_MAC_X[3].PE_MAC_Y[3].u_PE_MAC  |PE_MAC_7     |    33|
+|11    |  \in_fifo_X[1].u_sync_fifo          |sync_fifo    |   108|
+|12    |  \in_fifo_X[2].u_sync_fifo          |sync_fifo_8  |   106|
+|13    |  \in_fifo_X[3].u_sync_fifo          |sync_fifo_9  |   106|
+|14    |  \in_fifo_Y[1].u_sync_fifo          |sync_fifo_10 |    84|
+|15    |  \in_fifo_Y[2].u_sync_fifo          |sync_fifo_11 |    85|
+|16    |  \in_fifo_Y[3].u_sync_fifo          |sync_fifo_12 |   104|
+|17    |  \out_fifo[1].u_sync_fifo           |sync_fifo_13 |    82|
+|18    |  \out_fifo[2].u_sync_fifo           |sync_fifo_14 |    74|
+|19    |  \out_fifo[3].u_sync_fifo           |sync_fifo_15 |    74|
+|20    |  u_PE_config                        |PE_config    |    36|
+|21    |  u_RSA_port                         |RSA_port     |    37|
++------+-------------------------------------+-------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:34 ; elapsed = 00:00:37 . Memory (MB): peak = 1030.879 ; gain = 377.207
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 0 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:23 ; elapsed = 00:00:34 . Memory (MB): peak = 1030.879 ; gain = 254.648
+Synthesis Optimization Complete : Time (s): cpu = 00:00:34 ; elapsed = 00:00:38 . Memory (MB): peak = 1030.879 ; gain = 377.207
+INFO: [Project 1-571] Translating synthesized netlist
+INFO: [Netlist 29-17] Analyzing 72 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1040.238 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+INFO: [Common 17-83] Releasing license: Synthesis
+35 Infos, 4 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:40 ; elapsed = 00:00:45 . Memory (MB): peak = 1040.238 ; gain = 661.578
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.001 . Memory (MB): peak = 1040.238 ; gain = 0.000
+WARNING: [Constraints 18-5210] No constraints selected for write.
+Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
+INFO: [Common 17-1381] The checkpoint 'D:/EKF_SLAM/EKF_SLAM_RTL/RSA/RSA.runs/synth_1/RSA.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file RSA_utilization_synth.rpt -pb RSA_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Sun Feb 27 11:26:51 2022...

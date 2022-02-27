@@ -21,7 +21,7 @@ module sync_fifo
     reg [ADDR_WIDTH-1:0] wr_addr ;
     reg [ADDR_WIDTH-1:0] rd_addr ; 
     reg [ADDR_WIDTH:0] count ;
-    reg [DATA_LEN-1:0] fifo [0:DEPTH-1] ; // 定义一个二维的RAM
+    reg [DATA_LEN-1:0] fifo [0:DEPTH-1] ; // 定义�?个二维的RAM
 
     //n_rd_en
     always @(posedge clk or negedge sys_rst_n) begin
@@ -31,7 +31,7 @@ module sync_fifo
             n_rd_en <= rd_en;
     end
 
-    //读操作
+    //读操�?
     always @(posedge clk or negedge sys_rst_n) begin
         if(!sys_rst_n)  begin
             data_out <= 0;
@@ -43,14 +43,20 @@ module sync_fifo
             data_out <= 0;
     end
 
-    //写操作
+    //写操�?
+    integer i_wr_addr;
     always @(posedge clk or negedge sys_rst_n) begin
-        if(wr_en && full == 0)  begin
+        if(!sys_rst_n)  begin
+            for(i_wr_addr=0; i_wr_addr<DEPTH; i_wr_addr=i_wr_addr+1) begin
+                fifo[i_wr_addr] <= 0;
+            end
+        end
+        else if(wr_en && full == 0)  begin
             fifo[wr_addr] <= data_in;
         end
     end
 
-    //更新读地址
+    //更新读地�?
     always @(posedge clk or negedge sys_rst_n) begin
         if(!sys_rst_n)  begin
             rd_addr <= 0;
@@ -60,7 +66,7 @@ module sync_fifo
         end
     end
 
-    //更新写地址
+    //更新写地�?
     always @(posedge clk or negedge sys_rst_n) begin
         if(!sys_rst_n)  begin
             wr_addr <= 0;
@@ -70,7 +76,7 @@ module sync_fifo
         end
     end
 
-    //更新标志位
+    //更新标志�?
     /*每个时钟周期
         wr_en   rd_en   cnt
         0       0       不变
@@ -118,7 +124,7 @@ module sync_fifo
             full = 0;
     end
 
-    // //同步式
+    // //同步�?
     // always @(posedge clk or negedge sys_rst_n) begin
     //     if(!sys_rst_n)  begin
     //         count <= 0;

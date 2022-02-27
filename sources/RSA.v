@@ -349,7 +349,7 @@ generate
                     .northin    (northin[IN_LEN*((i-1)*Y+j) : IN_LEN*((i-1)*Y+j-1)+1]    ),
                     .din_val    (din_val_gnd    ),    
                     .din        (din_gnd   ),
-                    .n_cal_en   (   ),       
+                    .n_cal_en   (   ),     
                     .n_cal_done ( ),
                     .eastout    (    ),  //eastout传到右边 j+1
                     .southout   (   ),   //southout传到下边 i+1
