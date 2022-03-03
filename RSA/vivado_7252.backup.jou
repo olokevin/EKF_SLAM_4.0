@@ -1,0 +1,14 @@
+#-----------------------------------------------------------
+# Vivado v2019.1 (64-bit)
+# SW Build 2552052 on Fri May 24 14:49:42 MDT 2019
+# IP Build 2548770 on Fri May 24 18:01:18 MDT 2019
+# Start of session at: Sun Feb 27 11:50:11 2022
+# Process ID: 7252
+# Current directory: D:/EKF_SLAM/EKF_SLAM_RTL/RSA
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent16612 D:\EKF_SLAM\EKF_SLAM_RTL\RSA\RSA.xpr
+# Log file: D:/EKF_SLAM/EKF_SLAM_RTL/RSA/vivado.log
+# Journal file: D:/EKF_SLAM/EKF_SLAM_RTL/RSA\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project D:/EKF_SLAM/EKF_SLAM_RTL/RSA/RSA.xpr
+update_compile_order -fileset sources_1

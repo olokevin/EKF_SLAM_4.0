@@ -75,7 +75,9 @@ module PE_config #(
     always @(posedge clk or negedge sys_rst_n) begin
         if(!sys_rst_n)
             cal_done <= 0;
-        else if(sum_cnt == N)       //提前一个时钟
+        // else if(sum_cnt == N)       //提前一个时钟
+        //     cal_done <= 1'b1;
+        else if(sum_cnt == N+1)       //不提前
             cal_done <= 1'b1;
         else
             cal_done <= 1'b0;     

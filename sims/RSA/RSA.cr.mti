@@ -12,19 +12,19 @@ Model Technology ModelSim SE-64 vlog 10.5 Compiler 2016.02 Feb 13 2016
 Top level modules:
 	PE_config
 
-} {} {}} D:/EKF_SLAM/EKF_SLAM_RTL/sources/RSA_port.v {1 {vlog -work work -vopt -stats=none D:/EKF_SLAM/EKF_SLAM_RTL/sources/RSA_port.v
-Model Technology ModelSim SE-64 vlog 10.5 Compiler 2016.02 Feb 13 2016
--- Compiling module RSA_port
-
-Top level modules:
-	RSA_port
-
 } {} {}} D:/EKF_SLAM/EKF_SLAM_RTL/sources/RSA.v {1 {vlog -work work -vopt -stats=none D:/EKF_SLAM/EKF_SLAM_RTL/sources/RSA.v
 Model Technology ModelSim SE-64 vlog 10.5 Compiler 2016.02 Feb 13 2016
 -- Compiling module RSA
 
 Top level modules:
 	RSA
+
+} {} {}} D:/EKF_SLAM/EKF_SLAM_RTL/sources/RSA_port.v {1 {vlog -work work -vopt -stats=none D:/EKF_SLAM/EKF_SLAM_RTL/sources/RSA_port.v
+Model Technology ModelSim SE-64 vlog 10.5 Compiler 2016.02 Feb 13 2016
+-- Compiling module RSA_port
+
+Top level modules:
+	RSA_port
 
 } {} {}} D:/EKF_SLAM/EKF_SLAM_RTL/sources/tb_RSA.v {1 {vlog -work work -vopt -stats=none D:/EKF_SLAM/EKF_SLAM_RTL/sources/tb_RSA.v
 Model Technology ModelSim SE-64 vlog 10.5 Compiler 2016.02 Feb 13 2016

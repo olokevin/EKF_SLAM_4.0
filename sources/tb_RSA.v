@@ -5,7 +5,7 @@ module tb_RSA;
 // RSA Parameters
 parameter PERIOD      = 10;
 parameter X           = 3;
-parameter N           = 4;
+parameter N           = 3;
 parameter Y           = 3;
 parameter IN_LEN      = 4;
 parameter OUT_LEN     = 8;

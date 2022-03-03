@@ -26,6 +26,9 @@ module PE_MAC
     output   reg    [OUT_LEN-1:0]  dout
 );
 
+    reg [OUT_LEN-1:0] product;
+    reg [OUT_LEN-1:0] partial_sum;
+
     //下一模块的cal_en: n_cal_en
     always @(posedge clk or negedge sys_rst_n) begin
         if(!sys_rst_n)  begin
@@ -45,13 +48,34 @@ module PE_MAC
         end
     end
 
-    //乘积+求和
+    //multiply
+    always @(posedge clk or negedge sys_rst_n) begin
+        if(!sys_rst_n)
+            product <= 0;
+        else if(cal_en == 1'b1)
+            product <= westin * northin;
+        else
+            product <= 0;        
+    end
+
+    //add on partial sum
+    always @(posedge clk or negedge sys_rst_n) begin
+        if(!sys_rst_n)  begin
+            partial_sum <= 0; 
+        end
+        else if(cal_en == 1'b1 && cal_done != 1'b1)
+            partial_sum <= partial_sum + product;
+        else 
+            partial_sum <= 0; 
+    end
+
+    //dout 乘积+求和 传递din
     always @(posedge clk or negedge sys_rst_n) begin
         if(!sys_rst_n)  begin
             dout <= 0; 
         end
-        else if(cal_en == 1'b1)
-            dout <= dout + westin * northin;
+        else if(cal_done == 1'b1)
+            dout <= partial_sum + product;
         else if(din_val == 1'b1)
             dout <= din;
         else 
