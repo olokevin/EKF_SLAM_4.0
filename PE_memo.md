@@ -31,7 +31,16 @@ SA_start: 未自动化
 
 取消config
 
-* 
+* westin->eastout
+* northin->southout
+* din->dout: 输出横向传递
+* n_cal_en->cal_en, cal_done: 第一行横向传递，对每一列，纵向传递
+
+
+
+特殊情况
+
+* (1,1)：cal_en，cal_done
 
 ## 开发流程
 
@@ -137,6 +146,7 @@ modelsim保存仿真设置和仿真波形
 * out_rd_en：dout_val[1]使能计数两次，开始输出，重新计数
 * 最后一行的n_cal_en恰好可以作为northin_fifo的写使能信号！
   * 注意：需要用逻辑门/三态门实现数据传输
+* fifo 取消n_rd_en
 
 
 
@@ -144,3 +154,28 @@ modelsim保存仿真设置和仿真波形
 
 * 连续，差一个周期T（输出极限情况下）
   * westin.rd_en可以再抢一个T
+* fifo透传模式
+  * 当{wr_en,rd_en}=2'b11，且empty时，直接dout<= din
+
+除输出fifo使能外完成修改，已经找到流水思路
+
+修改后尚未仿真
+
+220304
+
+* 仿真完成
+* 加入了fifo透传模式
+* outfifo.rd_en: 最后一个T对齐PE输出的最后一个outfifo.wr_en
+  * outfifo.rd_en持续X个T
+  * PE从第一个输入(cal_en上升沿)开始，到产生第一个输出，需要N+1个T；到产生最后一个输出，需要N+1+2(N-1)=3N-1个T
+  * cal_en=westin[2].rd_en, westin[X].rd_en
+  * 即：PE从westin[X].rd_en开始，到产生第一个输出，需要N个T；到产生最后一个输出，需要N+2(N-1)=3N-2个T
+  * 所以，westin[X].rd_en的3N-2-(X-1)=3N-X-1级延迟，作为outfifo[1].rd_en
+  *  outfifo[i].rd_en为outfifo[1].rd_en的i\*N级延迟，即westin[X].rd_en的(3+i)\*N-X-1级延迟
+  * 总共需
+* cal_en cal_done用reg？
+* northfifo.rd_en目前是与westinfifo.rd_en一致 实际位宽可能不一样，还有循环的要求，要重新设计
+
+晚上
+
+* 加入fifo透传后，westin_fifo.rd_en还可以再提前几个周期

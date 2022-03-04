@@ -1,7 +1,7 @@
 module RSA 
 #(
     parameter X = 3,
-    parameter N = 3,
+    parameter N = 4,
     parameter Y = 3,
 
     parameter IN_LEN = 8,
@@ -12,22 +12,24 @@ module RSA
     input   clk,
     input   sys_rst_n,
 
+    input   SA_start,      //阵列启动信号
+
     input               Xin_val,
     input [IN_LEN:1]    Xin_data,
     input               Yin_val,
     input [IN_LEN:1]    Yin_data,
-    // input               out_rdy,
+    input               out_rdy,
 
-    output reg              out_val,
-    output [OUT_LEN:1]      out_data        //三态门输出只能是wire类型
+    // output              out_val,
+    output [OUT_LEN:1]  out_data
 
 );
 
 //互连信号线
 wire [X:1]  westin_wr_en;     
-wire [X:1]  westin_rd_en;
+wire [X+1:1]  westin_rd_en;
 wire [Y:1]  northin_wr_en;
-wire [Y:1]  northin_rd_en;
+wire [Y+1:1]  northin_rd_en;
 wire [X:1]  out_rd_en;
 
 
@@ -71,7 +73,44 @@ wire [OUT_LEN:1] din_gnd;
 assign din_val_gnd = 1'b0;
 assign din_gnd = 0;
 
-//Xin westin FIFO
+PE_config 
+#(
+    .X (X ),
+    .N (N ),
+    .Y (Y )
+)
+u_PE_config(
+    .clk       (clk       ),
+    .sys_rst_n (sys_rst_n ),
+    .SA_start  (SA_start  ),
+    .cal_en    (n_cal_en[0]    ),
+    .cal_done  (n_cal_done[0]  ),
+    // .in_wr_en  (in_wr_en),
+    .westin_rd_en  (westin_rd_en[1] ),
+    .northin_rd_en (northin_rd_en[1])
+);
+
+RSA_port 
+#(
+    .X          (X          ),
+    .N          (N          ),
+    .Y          (Y          ),
+    .IN_LEN     (IN_LEN     ),
+    .OUT_LEN    (OUT_LEN    ),
+    .ADDR_WIDTH (ADDR_WIDTH )
+)
+u_RSA_port(
+    .clk           (clk           ),
+    .sys_rst_n     (sys_rst_n     ),
+    .Xin_val       (Xin_val       ),
+    .Yin_val       (Yin_val       ),
+    .out_val       (out_rdy      ),
+    .westin_wr_en  (westin_wr_en  ),
+    .northin_wr_en (northin_wr_en ),
+    .out_rd_en     (out_rd_en     )
+);
+
+//X输入fifo
 genvar  i;
 genvar  j;
 generate
@@ -88,28 +127,18 @@ generate
             .wr_en     (westin_wr_en[i]     ),
             .rd_en     (westin_rd_en[i]     ),
             .data_in   (Xin_r1   ),
-            .data_out  (westin[IN_LEN*((i-1)*Y+1):IN_LEN*((i-1)*Y)+1]  )   //j=1
+            .data_out  (westin[IN_LEN*((i-1)*Y+1):IN_LEN*((i-1)*Y)+1]  ),   //j=1
+            .n_rd_en   (westin_rd_en[i+1]   ),
+            .empty     (     ),
+            .full      (     )
         );
         
     end
 endgenerate
 
 //Yin northin FIFO
-wire [Y:1] northin_wr_en_config, northin_wr_en_circular;                //两路使能信号
-assign northin_wr_en = northin_wr_en_config | northin_wr_en_circular;   //与门
-
-wire [IN_LEN:1] Yin_r1_wire;
-wire [Y*IN_LEN:1] southout_wire; //三态门输入
-assign Yin_r1_wire = Yin_r1;
-wire [Y*IN_LEN:1] northin_data_in;               //三态门输出，作为northFIFO的data_in
-
-genvar n;
 generate
     for(j = 1; j <= Y; j=j+1) begin:in_fifo_Y
-        for (n=1; n<=IN_LEN; n=n+1) begin:in_fifo_Y_tri
-            bufif1 (northin_data_in[IN_LEN*(j-1)+n], Yin_r1_wire[n], northin_wr_en_config[j]) ;
-            bufif1 (northin_data_in[IN_LEN*(j-1)+n], southout_wire[IN_LEN*(j-1)+n], northin_wr_en_circular[j]) ;
-        end
         sync_fifo 
         #(
             .DATA_LEN   (IN_LEN   ),
@@ -121,8 +150,11 @@ generate
             .sys_rst_n (sys_rst_n ),
             .wr_en     (northin_wr_en[j]     ),
             .rd_en     (northin_rd_en[j]     ),
-            .data_in   (northin_data_in[IN_LEN*j:IN_LEN*(j-1)+1]   ),
-            .data_out  (northin[IN_LEN*j:IN_LEN*(j-1)+1]  )  //i=1
+            .data_in   (Yin_r1   ),
+            .data_out  (northin[IN_LEN*j:IN_LEN*(j-1)+1]  ),  //i=1
+            .n_rd_en   (northin_rd_en[j+1]   ),
+            .empty     (     ),
+            .full      (      )
         );
         
     end
@@ -141,6 +173,8 @@ always @(posedge clk or negedge sys_rst_n) begin
         out_rd_en_r <= out_rd_en;
 end
 
+genvar n;
+
 generate
     for(i=1; i<=X; i=i+1) begin:out_fifo
         for(n=1; n<=OUT_LEN; n=n+1) begin:out_fifo_tri
@@ -158,30 +192,22 @@ generate
             .wr_en     (dout_val[(i-1)*Y+1]    ),
             .rd_en     (out_rd_en[i]     ),
             .data_in   (dout[ OUT_LEN*((i-1)*Y+1) : OUT_LEN*((i-1)*Y) + 1 ]   ),
-            .data_out  (out_fifo_data[OUT_LEN*i : OUT_LEN*(i-1)+1]  )  //i=1
+            .data_out  (out_fifo_data[OUT_LEN*i : OUT_LEN*(i-1)+1]  ),  //i=1
+            .n_rd_en   (  ),          //输出的读出使能直接由RSA_port控制
+            .empty     (     ),
+            .full      (      )
         );
          
     end
 endgenerate 
 
-//输出有效
-always @(posedge clk or negedge sys_rst_n) begin
-    if(!sys_rst_n)
-        out_val <= 1'b0;
-    else if(out_rd_en != {X{1'b0}})
-        out_val <= 1'b1;
-    else
-        out_val <= 1'b0;
-end
-
-//PE阵列
 generate
     for(i=1; i<=X; i=i+1) begin:PE_MAC_X
         for(j=1; j<=Y; j=j+1) begin:PE_MAC_Y
         //第(i,j)个PE data：[ LEN*((i-1)*Y+j) : LEN*((i-1)*Y+j-1) + 1 ]
         //第(i,j)个PE sig:  [(i-1)*Y+j]
             //第一行 cal_en cal_done
-            //第一行的cal_en cal_done来自所在列上一列 j-1
+            //第一列的cal_en cal_done来自该列上一列 j-1
             if(i==1 && j!=Y) begin
                 PE_MAC 
                 #(
@@ -192,7 +218,7 @@ generate
                 u_PE_MAC(
                     .clk        (clk        ),
                     .sys_rst_n  (sys_rst_n  ),
-                    .cal_en     (n_cal_en[j-1]     ),  //第一行的cal_en cal_done来自所在列上一列 j-1
+                    .cal_en     (n_cal_en[j-1]     ),  //第一列的cal_en cal_done来自该列上一列 j-1
                     .cal_done   (n_cal_done[j-1]   ),
                     .westin     (westin[IN_LEN*((i-1)*Y+j) : IN_LEN*((i-1)*Y+j-1)+1]     ),
                     .northin    (northin[IN_LEN*((i-1)*Y+j) : IN_LEN*((i-1)*Y+j-1)+1]    ),
@@ -273,10 +299,10 @@ generate
                     .northin    (northin[IN_LEN*((i-1)*Y+j) : IN_LEN*((i-1)*Y+j-1)+1]    ),
                     .din_val    (dout_val[(i-1)*Y+j+1]    ),    //din来自右边 j+1
                     .din        (dout[OUT_LEN*((i-1)*Y+j+1) : OUT_LEN*((i-1)*Y+j)+1]        ),
-                    .n_cal_en   (northin_wr_en_circular[j]   ),       //最后一行，n_cal_en作为northin_fifo.wr_en,数据循环
+                    .n_cal_en   (   ),       //最后一行，无n_cal_en
                     .n_cal_done (  ),
                     .eastout    (westin[IN_LEN*((i-1)*Y+j+1) : IN_LEN*((i-1)*Y+j)+1]    ),  //eastout传到右边 j+1
-                    .southout   (southout_wire[IN_LEN*j : IN_LEN*(j-1)+1]   ),   //southout作为northinFIFO的循环输入
+                    .southout   (   ),   //southout传到下边 i+1
                     .dout_val   (dout_val[(i-1)*Y+j]   ),  //dout连线标号按位置给定
                     .dout       (dout[OUT_LEN*((i-1)*Y+j) : OUT_LEN*((i-1)*Y+j-1)+1]       )
                 );
@@ -323,10 +349,10 @@ generate
                     .northin    (northin[IN_LEN*((i-1)*Y+j) : IN_LEN*((i-1)*Y+j-1)+1]    ),
                     .din_val    (din_val_gnd    ),    
                     .din        (din_gnd   ),
-                    .n_cal_en   (northin_wr_en_circular[j]   ),     
+                    .n_cal_en   (   ),     
                     .n_cal_done ( ),
                     .eastout    (    ),  //eastout传到右边 j+1
-                    .southout   (southout_wire[IN_LEN*j : IN_LEN*(j-1)+1]   ),   //southout传到下边 i+1
+                    .southout   (   ),   //southout传到下边 i+1
                     .dout_val   (dout_val[(i-1)*Y+j]   ),  //dout连线标号按位置给定
                     .dout       (dout[OUT_LEN*((i-1)*Y+j) : OUT_LEN*((i-1)*Y+j-1)+1]       )
                 );
@@ -336,28 +362,5 @@ generate
     end
 endgenerate
 
-PE_config 
-#(
-    .X          (X          ),
-    .N          (N          ),
-    .Y          (Y          ),
-    .IN_LEN     (IN_LEN     ),
-    .OUT_LEN    (OUT_LEN    ),
-    .ADDR_WIDTH (ADDR_WIDTH )
-)
-u_PE_config(
-    .clk           (clk           ),
-    .sys_rst_n     (sys_rst_n     ),
-    .Xin_val       (Xin_val       ),
-    .Yin_val       (Yin_val       ),
-    // .out_val       (out_rdy       ),
-    .westin_wr_en  (westin_wr_en  ),
-    .northin_wr_en (northin_wr_en_config ),
-    .westin_rd_en  (westin_rd_en  ),
-    .northin_rd_en (northin_rd_en ),
-    .cal_en        (n_cal_en[0]        ),
-    .cal_done      (n_cal_done[0]      ),
-    .out_rd_en     (out_rd_en     )
-);
-
+    
 endmodule

@@ -1,6 +1,6 @@
 module PE_MAC 
 #(
-    parameter N = 4,
+    parameter N = 3,
     parameter IN_LEN = 8,
     parameter OUT_LEN = 8
 )

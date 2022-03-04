@@ -14,14 +14,14 @@ parameter ADDR_WIDTH  = 2;
 // RSA Inputs
 reg   clk                                  = 1 ;
 reg   sys_rst_n                            = 0 ;
-reg   SA_start                             = 0 ;
+// reg   SA_start                             = 0 ;
 reg   Xin_val                              = 0 ;
 reg   [IN_LEN:1]  Xin_data                 = 0 ;
 reg   Yin_val                              = 0 ;
 reg   [IN_LEN:1]  Yin_data                 = 0 ;
-reg   out_rdy = 0;
 
 // RSA Outputs
+wire    out_val;
 wire  [OUT_LEN:1]  out_data                ;
 
 
@@ -85,19 +85,19 @@ initial begin
     end
 end
 
-//SA_start
-initial begin
-    #(PERIOD*(2+3+2+Y*N)) SA_start <= 1;
-    #PERIOD SA_start <= 0;
-end
+// //SA_start
+// initial begin
+//     #(PERIOD*(2+3+2+Y*N)) SA_start <= 1;
+//     #PERIOD SA_start <= 0;
+// end
 
 //读取结果
 //SA_start后3+N+(X-1)+2*(Y-1)+1 全部结果存于FIFO中
-initial begin
-    // #(PERIOD*(2+3+Y*N + 3+N+(X-1)+2*(Y-1)+1)) ;
-    #(PERIOD*40) out_rdy <= 1;
-    #(PERIOD*X*Y) out_rdy <= 0; 
-end
+// initial begin
+//     // #(PERIOD*(2+3+Y*N + 3+N+(X-1)+2*(Y-1)+1)) ;
+//     #(PERIOD*40) out_rdy <= 1;
+//     #(PERIOD*X*Y) out_rdy <= 0; 
+// end
 
 RSA #(
     .X          ( X          ),
@@ -109,12 +109,12 @@ RSA #(
  u_RSA (
     .clk                     ( clk                    ),
     .sys_rst_n               ( sys_rst_n              ),
-    .SA_start                ( SA_start               ),
+    // .SA_start                ( SA_start               ),
     .Xin_val                 ( Xin_val                ),
     .Xin_data                ( Xin_data   [IN_LEN:1]  ),
     .Yin_val                 ( Yin_val                ),
     .Yin_data                ( Yin_data   [IN_LEN:1]  ),
-    .out_rdy                 ( out_rdy                ),
+    .out_val                 ( out_val                ),
     .out_data                ( out_data   [OUT_LEN:1] )
 );
 

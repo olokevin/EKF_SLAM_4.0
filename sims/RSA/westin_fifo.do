@@ -1,20 +1,34 @@
 onerror {resume}
 quietly WaveActivateNextPane {} 0
-add wave -noupdate /tb_RSA/clk
-add wave -noupdate /tb_RSA/sys_rst_n
-add wave -noupdate /tb_RSA/SA_start
-add wave -noupdate /tb_RSA/Xin_val
-add wave -noupdate /tb_RSA/Xin_data
-add wave -noupdate /tb_RSA/Yin_val
-add wave -noupdate /tb_RSA/Yin_data
-add wave -noupdate /tb_RSA/out_rdy
-add wave -noupdate -radix unsigned /tb_RSA/out_data
-add wave -noupdate {/tb_RSA/u_RSA/out_fifo[1]/u_sync_fifo/rd_en}
-add wave -noupdate {/tb_RSA/u_RSA/out_fifo[1]/u_sync_fifo/data_out}
+add wave -noupdate {/tb_RSA/u_RSA/in_fifo_X[1]/u_sync_fifo/clk}
+add wave -noupdate {/tb_RSA/u_RSA/in_fifo_X[1]/u_sync_fifo/sys_rst_n}
+add wave -noupdate {/tb_RSA/u_RSA/in_fifo_X[1]/u_sync_fifo/wr_en}
+add wave -noupdate {/tb_RSA/u_RSA/in_fifo_X[1]/u_sync_fifo/rd_en}
+add wave -noupdate {/tb_RSA/u_RSA/in_fifo_X[1]/u_sync_fifo/data_in}
+add wave -noupdate {/tb_RSA/u_RSA/in_fifo_X[1]/u_sync_fifo/data_out}
+add wave -noupdate {/tb_RSA/u_RSA/in_fifo_X[1]/u_sync_fifo/wr_addr}
+add wave -noupdate {/tb_RSA/u_RSA/in_fifo_X[1]/u_sync_fifo/rd_addr}
+add wave -noupdate {/tb_RSA/u_RSA/in_fifo_X[1]/u_sync_fifo/fifo}
+add wave -noupdate -itemcolor Blue {/tb_RSA/u_RSA/in_fifo_X[2]/u_sync_fifo/wr_en}
+add wave -noupdate -itemcolor Blue {/tb_RSA/u_RSA/in_fifo_X[2]/u_sync_fifo/rd_en}
+add wave -noupdate -itemcolor Blue {/tb_RSA/u_RSA/in_fifo_X[2]/u_sync_fifo/data_in}
+add wave -noupdate -itemcolor Blue {/tb_RSA/u_RSA/in_fifo_X[2]/u_sync_fifo/data_out}
+add wave -noupdate -itemcolor Blue {/tb_RSA/u_RSA/in_fifo_X[2]/u_sync_fifo/wr_addr}
+add wave -noupdate -itemcolor Blue {/tb_RSA/u_RSA/in_fifo_X[2]/u_sync_fifo/rd_addr}
+add wave -noupdate -itemcolor Blue {/tb_RSA/u_RSA/in_fifo_X[2]/u_sync_fifo/fifo}
+add wave -noupdate -itemcolor Blue {/tb_RSA/u_RSA/in_fifo_X[2]/u_sync_fifo/i_wr_addr}
+add wave -noupdate {/tb_RSA/u_RSA/in_fifo_X[3]/u_sync_fifo/wr_en}
+add wave -noupdate {/tb_RSA/u_RSA/in_fifo_X[3]/u_sync_fifo/rd_en}
+add wave -noupdate {/tb_RSA/u_RSA/in_fifo_X[3]/u_sync_fifo/data_in}
+add wave -noupdate {/tb_RSA/u_RSA/in_fifo_X[3]/u_sync_fifo/data_out}
+add wave -noupdate {/tb_RSA/u_RSA/in_fifo_X[3]/u_sync_fifo/wr_addr}
+add wave -noupdate {/tb_RSA/u_RSA/in_fifo_X[3]/u_sync_fifo/rd_addr}
+add wave -noupdate {/tb_RSA/u_RSA/in_fifo_X[3]/u_sync_fifo/fifo}
+add wave -noupdate {/tb_RSA/u_RSA/in_fifo_X[3]/u_sync_fifo/i_wr_addr}
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {387776 ps} 0}
 quietly wave cursor active 1
-configure wave -namecolwidth 150
+configure wave -namecolwidth 114
 configure wave -valuecolwidth 100
 configure wave -justifyvalue left
 configure wave -signalnamewidth 1
@@ -28,4 +42,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {365245 ps} {507093 ps}
+WaveRestoreZoom {31335 ps} {180236 ps}
