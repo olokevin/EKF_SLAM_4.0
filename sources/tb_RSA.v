@@ -4,6 +4,7 @@ module tb_RSA;
 
 // RSA Parameters
 parameter PERIOD      = 10;
+parameter M           = 7;
 parameter X           = 3;
 parameter N           = 3;
 parameter Y           = 3;
@@ -37,7 +38,7 @@ end
 
 initial begin
     #(PERIOD*3) Xin_val <= 1;
-    #(PERIOD*(X*N)) Xin_val <= 0;
+    #(PERIOD*(M*N)) Xin_val <= 0;
 end
 
 initial begin
@@ -57,7 +58,7 @@ end
 initial begin
     #(PERIOD*3) ;
     if(!Xin_err) begin
-        for(i=0; i<X*N; i=i+1) begin
+        for(i=0; i<M*N; i=i+1) begin
             @(posedge clk);         //在每个时钟上升沿读取数据
             code = $fscanf(Xin_fd,"%h",Xin_data);
             $display("Xin_data%d: %h", i, Xin_data) ;

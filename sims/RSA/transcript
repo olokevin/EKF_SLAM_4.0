@@ -784,3 +784,259 @@ run
 # Yin_data          8: 1
 # Xin_data          8: 1
 write format wave -window .main_pane.wave4.interior.cs.body.pw.wf D:/EKF_SLAM/EKF_SLAM_RTL/sims/RSA/PE_config.do
+# Compile of tb_RSA.v was successful.
+restart
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Warning: D:/EKF_SLAM/EKF_SLAM_RTL/sources/PE_config.v(166): (vopt-2697) MSB of part-select into 'cal_delay' is out of bounds.
+# Loading work.tb_RSA(fast)
+# Loading work.RSA(fast)
+# Loading work.sync_fifo(fast)
+# Loading work.sync_fifo(fast__1)
+# Loading work.PE_MAC(fast)
+# Loading work.PE_config(fast)
+run
+# Yin_data          0: 1
+# Xin_data          0: 1
+# Xin_data          1: 2
+# Yin_data          1: 2
+# Yin_data          2: 3
+# Xin_data          2: 3
+# Xin_data          3: 2
+# Yin_data          3: 2
+# Yin_data          4: 3
+# Xin_data          4: 3
+# Xin_data          5: 4
+# Yin_data          5: 1
+# Yin_data          6: 3
+# Xin_data          6: 3
+# Xin_data          7: 4
+# Yin_data          7: 2
+# Yin_data          8: 1
+# Xin_data          8: 1
+# Xin_data          9: 4
+# Xin_data         10: 1
+# Xin_data         11: 2
+# Xin_data         12: 1
+# Xin_data         13: 2
+# Xin_data         14: 3
+# Xin_data         15: 2
+# Xin_data         16: 3
+# Xin_data         17: 4
+restart
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# Loading work.tb_RSA(fast)
+# Loading work.RSA(fast)
+# Loading work.sync_fifo(fast)
+# Loading work.sync_fifo(fast__1)
+# Loading work.PE_MAC(fast)
+# Loading work.PE_config(fast)
+run
+# Yin_data          0: 1
+# Xin_data          0: 1
+# Xin_data          1: 2
+# Yin_data          1: 2
+# Yin_data          2: 3
+# Xin_data          2: 3
+# Xin_data          3: 2
+# Yin_data          3: 2
+# Yin_data          4: 3
+# Xin_data          4: 3
+# Xin_data          5: 4
+# Yin_data          5: 1
+# Yin_data          6: 3
+# Xin_data          6: 3
+# Xin_data          7: 4
+# Yin_data          7: 2
+# Yin_data          8: 1
+# Xin_data          8: 1
+# Xin_data          9: 4
+# Xin_data         10: 1
+# Xin_data         11: 2
+# Xin_data         12: 1
+# Xin_data         13: 2
+# Xin_data         14: 3
+# Xin_data         15: 2
+# Xin_data         16: 3
+# Xin_data         17: 4
+# Compile of tb_RSA.v was successful.
+restart
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Warning: D:/EKF_SLAM/EKF_SLAM_RTL/sources/PE_config.v(166): (vopt-2697) MSB of part-select into 'cal_delay' is out of bounds.
+# Loading work.tb_RSA(fast)
+# Loading work.RSA(fast)
+# Loading work.sync_fifo(fast)
+# Loading work.sync_fifo(fast__1)
+# Loading work.PE_MAC(fast)
+# Loading work.PE_config(fast)
+run
+# Yin_data          0: 1
+# Xin_data          0: 1
+# Xin_data          1: 2
+# Yin_data          1: 2
+# Yin_data          2: 3
+# Xin_data          2: 3
+# Xin_data          3: 2
+# Yin_data          3: 2
+# Yin_data          4: 3
+# Xin_data          4: 3
+# Xin_data          5: 4
+# Yin_data          5: 1
+# Yin_data          6: 3
+# Xin_data          6: 3
+# Xin_data          7: 4
+# Yin_data          7: 2
+# Yin_data          8: 1
+# Xin_data          8: 1
+# Compile of tb_RSA.v was successful.
+restart
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading work.tb_RSA(fast)
+# Loading work.RSA(fast)
+# Loading work.sync_fifo(fast)
+# Loading work.sync_fifo(fast__1)
+# Loading work.PE_MAC(fast)
+# Loading work.PE_config(fast)
+run
+# Yin_data          0: 1
+# Xin_data          0: 1
+# Xin_data          1: 2
+# Yin_data          1: 2
+# Yin_data          2: 3
+# Xin_data          2: 3
+# Xin_data          3: 2
+# Yin_data          3: 2
+# Yin_data          4: 3
+# Xin_data          4: 3
+# Xin_data          5: 4
+# Yin_data          5: 1
+# Yin_data          6: 3
+# Xin_data          6: 3
+# Xin_data          7: 4
+# Yin_data          7: 2
+# Yin_data          8: 1
+# Xin_data          8: 1
+# Xin_data          9: 4
+# Xin_data         10: 1
+# Xin_data         11: 2
+# Xin_data         12: 1
+# Xin_data         13: 2
+# Xin_data         14: 3
+# Xin_data         15: 2
+# Xin_data         16: 3
+# Xin_data         17: 4
+# Compile of sync_fifo.v was successful.
+restart
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading work.tb_RSA(fast)
+# Loading work.RSA(fast)
+# Loading work.sync_fifo(fast)
+# Loading work.sync_fifo(fast__1)
+# Loading work.PE_MAC(fast)
+# Loading work.PE_config(fast)
+run
+# Yin_data          0: 1
+# Xin_data          0: 1
+# Xin_data          1: 2
+# Yin_data          1: 2
+# Yin_data          2: 3
+# Xin_data          2: 3
+# Xin_data          3: 2
+# Yin_data          3: 2
+# Yin_data          4: 3
+# Xin_data          4: 3
+# Xin_data          5: 4
+# Yin_data          5: 1
+# Yin_data          6: 3
+# Xin_data          6: 3
+# Xin_data          7: 4
+# Yin_data          7: 2
+# Yin_data          8: 1
+# Xin_data          8: 1
+# Xin_data          9: 4
+# Xin_data         10: 1
+# Xin_data         11: 2
+# Xin_data         12: 1
+# Xin_data         13: 2
+# Xin_data         14: 3
+# Xin_data         15: 2
+# Xin_data         16: 3
+# Xin_data         17: 4
+# Compile of tb_RSA.v was successful.
+restart
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading work.tb_RSA(fast)
+# Loading work.RSA(fast)
+# Loading work.sync_fifo(fast)
+# Loading work.sync_fifo(fast__1)
+# Loading work.PE_MAC(fast)
+# Loading work.PE_config(fast)
+run
+# Yin_data          0: 1
+# Xin_data          0: 1
+# Xin_data          1: 2
+# Yin_data          1: 2
+# Yin_data          2: 3
+# Xin_data          2: 3
+# Xin_data          3: 2
+# Yin_data          3: 2
+# Yin_data          4: 3
+# Xin_data          4: 3
+# Xin_data          5: 4
+# Yin_data          5: 1
+# Yin_data          6: 3
+# Xin_data          6: 3
+# Xin_data          7: 4
+# Yin_data          7: 2
+# Yin_data          8: 1
+# Xin_data          8: 1
+# Xin_data          9: 4
+# Xin_data         10: 1
+# Xin_data         11: 2
+# Xin_data         12: 1
+# Xin_data         13: 2
+# Xin_data         14: 3
+# Xin_data         15: 2
+# Xin_data         16: 3
+# Xin_data         17: 4
+# Xin_data         18: 3
+# Xin_data         19: 4
+# Xin_data         20: 1
+restart
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# Loading work.tb_RSA(fast)
+# Loading work.RSA(fast)
+# Loading work.sync_fifo(fast)
+# Loading work.sync_fifo(fast__1)
+# Loading work.PE_MAC(fast)
+# Loading work.PE_config(fast)
+run
+# Yin_data          0: 1
+# Xin_data          0: 1
+# Xin_data          1: 2
+# Yin_data          1: 2
+# Yin_data          2: 3
+# Xin_data          2: 3
+# Xin_data          3: 2
+# Yin_data          3: 2
+# Yin_data          4: 3
+# Xin_data          4: 3
+# Xin_data          5: 4
+# Yin_data          5: 1
+# Yin_data          6: 3
+# Xin_data          6: 3
+# Xin_data          7: 4
+# Yin_data          7: 2
+# Yin_data          8: 1
+# Xin_data          8: 1
+# Xin_data          9: 4
+# Xin_data         10: 1
+# Xin_data         11: 2
+# Xin_data         12: 1
+# Xin_data         13: 2
+# Xin_data         14: 3
+# Xin_data         15: 2
+# Xin_data         16: 3
+# Xin_data         17: 4
+# Xin_data         18: 3
+# Xin_data         19: 4
+# Xin_data         20: 1

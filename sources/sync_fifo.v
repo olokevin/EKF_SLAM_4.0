@@ -63,7 +63,10 @@ module sync_fifo
             rd_addr <= {ADDR_WIDTH{1'b0}};
         end
         else if(rd_en) begin
-            rd_addr <= rd_addr + {{(ADDR_WIDTH-1){1'b0}},{1'b1}};
+            if(rd_addr == DEPTH-1)
+                rd_addr <= {ADDR_WIDTH{1'b0}};
+            else
+                rd_addr <= rd_addr + {{(ADDR_WIDTH-1){1'b0}},{1'b1}};
         end
     end
 
@@ -73,7 +76,10 @@ module sync_fifo
             wr_addr <= {ADDR_WIDTH{1'b0}};
         end
         else if(wr_en) begin
-            wr_addr <= wr_addr + {{(ADDR_WIDTH-1){1'b0}},{1'b1}};
+            if(wr_addr == DEPTH-1)
+                wr_addr <= {ADDR_WIDTH{1'b0}};
+            else
+                wr_addr <= wr_addr + {{(ADDR_WIDTH-1){1'b0}},{1'b1}};
         end
     end
 
