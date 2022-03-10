@@ -1,5 +1,7 @@
 onerror {resume}
 quietly WaveActivateNextPane {} 0
+add wave -noupdate -height 17 -itemcolor Blue /tb_RSA/Yin_val
+add wave -noupdate -height 17 -itemcolor Blue /tb_RSA/Yin_data
 add wave -noupdate {/tb_RSA/u_RSA/in_fifo_Y[1]/u_sync_fifo/wr_en}
 add wave -noupdate {/tb_RSA/u_RSA/in_fifo_Y[1]/u_sync_fifo/rd_en}
 add wave -noupdate {/tb_RSA/u_RSA/in_fifo_Y[1]/u_sync_fifo/data_in}
@@ -19,7 +21,7 @@ add wave -noupdate {/tb_RSA/u_RSA/in_fifo_Y[3]/u_sync_fifo/data_out}
 add wave -noupdate {/tb_RSA/u_RSA/in_fifo_Y[3]/u_sync_fifo/wr_addr}
 add wave -noupdate {/tb_RSA/u_RSA/in_fifo_Y[3]/u_sync_fifo/rd_addr}
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {499270 ps} 0}
+WaveRestoreCursors {{Cursor 1} {188039 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 150
 configure wave -valuecolwidth 100
@@ -35,4 +37,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {368659 ps} {506913 ps}
+WaveRestoreZoom {121776 ps} {260030 ps}

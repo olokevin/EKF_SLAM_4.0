@@ -21,7 +21,7 @@ add wave -noupdate {/tb_RSA/u_RSA/out_fifo[1]/u_sync_fifo/rd_en}
 add wave -noupdate {/tb_RSA/u_RSA/out_fifo[1]/u_sync_fifo/data_in}
 add wave -noupdate {/tb_RSA/u_RSA/out_fifo[1]/u_sync_fifo/data_out}
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {154654 ps} 0}
+WaveRestoreCursors {{Cursor 1} {381703 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 150
 configure wave -valuecolwidth 100
@@ -37,4 +37,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {0 ps} {141848 ps}
+WaveRestoreZoom {365245 ps} {507093 ps}

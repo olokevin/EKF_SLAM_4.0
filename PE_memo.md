@@ -179,3 +179,43 @@ modelsim保存仿真设置和仿真波形
 晚上
 
 * 加入fifo透传后，westin_fifo.rd_en还可以再提前几个周期
+* 工作：
+  * 最后一行输出的n_cal_en输出到northfifo.wr_en
+  * westin.wr_en继续循环移位
+  * southout->northinfifo.data_in, 由于可能出现线与，分别用Yin_val和n_cal_en作为三态门控制信号（写入，有效信号与数据同步，
+* 所有参考以第一个为基准，可保证任意行都可使用
+  * westin.wr_en: 根据输入
+  * westin[1].rd_en: westin[1].wr_en的N*(X-1)+1级延迟
+    * westin[i].rd_en：westin[1].rd_en的(i-1)级延迟
+  * cal_en: westin[1].rd_en的一级延迟
+  * outfifo[1].rd_en：westin[1].rd_en的3*N-2级延迟
+    * outfifo[i].rd_en为outfifo[1].rd_en的i\*N级延迟，即westin[X].rd_en的(3+i)\*N-X-1级延迟
+
+
+
+220305
+
+* 移位使能：
+  * northin：Yin_val的1+N级延迟
+    * 1级：Yin_val下降沿后一个T，数据写入完成
+    * N级：最后一个FIFO N级输出
+  * westin
+
+问题：
+
+1. 
+
+```verilog
+		if(!sys_rst_n)  begin
+            wr_addr <= {ADDR_WIDTH{1'b0}};
+        end
+```
+
+赋值时是否一定要指明位宽?
+
+* 赋0：时序上没有差别
+* 加1：
+
+2. 延迟链 是否要使能信号？（功耗与面积）
+3. 输出 wire与reg？
+4. 时序逻辑 即使检测下降沿

@@ -23,8 +23,10 @@ module PE_config
     output  reg [X:1]     westin_rd_en,  //输入，与N有关 westin和northin都是存N个数据
     output  reg [Y:1]     northin_rd_en,
     //PE calculation enable
-    output           cal_en,
-    output           cal_done,   
+    output  reg         cal_en,
+    output  reg         cal_done,   
+    // output           cal_en,
+    // output           cal_done, 
     //out_fifo->output
     output  reg [X:1]   out_rd_en
 );
@@ -106,73 +108,117 @@ module PE_config
         end  
     end
 
-    integer  i_westin_rd_en;
-    //westin.rd_en
+//westin.rd_en
+    reg [N*(X-1):1]   westin_delay_en_delay;
+    always @(posedge clk or negedge sys_rst_n) begin
+        if(!sys_rst_n)
+            westin_delay_en_delay <= 0;
+        else 
+            westin_delay_en_delay <= {westin_delay_en_delay[N*(X-1)-1:1],Xin_val};
+    end
+
+    reg westin_delay_en;    //生成第一个westin_rd_en
+    reg westin_delay_X_en;  //生成2~X后续westin_rd_en
+    always @(posedge clk or negedge sys_rst_n) begin
+        if(!sys_rst_n)
+            westin_delay_en <= 0;
+        else begin
+            westin_delay_en <= Xin_val | westin_delay_en_delay[N*(X-1)];
+            westin_delay_X_en <= Xin_val | westin_delay_en_delay[N];
+        end   
+    end
+
+    reg [N*(X-1):1]  westin_rd_en_delay;
+    always @(posedge clk or negedge sys_rst_n) begin
+        if(!sys_rst_n)
+            westin_rd_en_delay <= 0;
+        // else
+        //     westin_rd_en_delay <= {westin_rd_en_delay[N*(X-1)-1:1],westin_wr_en[1]};
+        else if(westin_delay_X_en == 1'b1)
+            westin_rd_en_delay <= {westin_rd_en_delay[N*(X-1)-1:1],westin_wr_en[1]};
+        else
+            westin_rd_en_delay <= 0;
+    end
+
     always @(posedge clk or negedge sys_rst_n) begin
         if(!sys_rst_n)
             westin_rd_en <= 0;
-        else begin
-            westin_rd_en[1] <= westin_wr_en[X];
-            for(i_westin_rd_en=2; i_westin_rd_en<=X; i_westin_rd_en=i_westin_rd_en+1) begin
-                westin_rd_en[i_westin_rd_en] <= westin_rd_en[i_westin_rd_en-1];
-            end
+        // else
+        //     westin_rd_en <= {westin_rd_en[X-1:1],westin_rd_en_delay[N*(X-1)]};
+        else if(westin_delay_en == 1'b1) begin
+            westin_rd_en <= {westin_rd_en[X-1:1],westin_rd_en_delay[N*(X-1)]};
         end
+        else
+            westin_rd_en <= 0;
     end
 
-    integer  i_northin_rd_en;
-    //northin.rd_en
+//northin.rd_en
+    reg [N:1]   northin_delay_en_delay;
+    always @(posedge clk or negedge sys_rst_n) begin
+        if(!sys_rst_n)
+            northin_delay_en_delay <= 0;
+        else 
+            northin_delay_en_delay <= {northin_delay_en_delay[N-1:1],Yin_val};
+    end
+
+    reg northin_delay_en;
+    always @(posedge clk or negedge sys_rst_n) begin
+        if(!sys_rst_n)
+            northin_delay_en <= 0;
+        else 
+            northin_delay_en <= Yin_val | northin_delay_en_delay[N];
+    end
+
     always @(posedge clk or negedge sys_rst_n) begin
         if(!sys_rst_n)
             northin_rd_en <= 0;
-        else begin
-            northin_rd_en[1] <= westin_wr_en[X];    //
-            for(i_northin_rd_en=2; i_northin_rd_en<=Y; i_northin_rd_en=i_northin_rd_en+1) begin
-                northin_rd_en[i_northin_rd_en] <= northin_rd_en[i_northin_rd_en-1];
-            end
+        // else
+        //     northin_rd_en <= {northin_rd_en[Y-1:1],westin_rd_en_delay[N*(X-1)]};
+        else if(westin_delay_en == 1'b1) begin
+            northin_rd_en <= {northin_rd_en[Y-1:1],westin_rd_en_delay[N*(X-1)]};
         end
+        else   
+            northin_rd_en <= 0;
     end
 
     //cal_en
-    assign cal_en = westin_rd_en[2];
-    // reg cal_en_r;
-    // always @(posedge clk or negedge sys_rst_n) begin
-    //     if(!sys_rst_n) begin
-    //         cal_en <= 0;
-    //         cal_en_r <= 0;
-    //     end
-    //     else begin
-    //         cal_en <= westin_rd_en[1];
-    //         cal_en_r <= cal_en;
-    //     end            
-    // end
+    // assign cal_en = westin_rd_en[2];
+    always @(posedge clk or negedge sys_rst_n) begin
+        if(!sys_rst_n) begin
+            cal_en <= 0;
+        end
+        else begin
+            cal_en <= westin_rd_en[1];
+        end            
+    end
 
     //cal_done
-    assign cal_done = ({westin_rd_en[3],westin_rd_en[2]} == 2'b10) ? 1'b1 : 1'b0;
-    // always @(posedge clk or negedge sys_rst_n) begin
-    //     if(!sys_rst_n)
-    //         cal_done <= 1'b0;
-    //     else if({cal_en_r,cal_en} == 2'b10)
-    //         cal_done <= 1'b1;
-    //     else
-    //         cal_done <= 1'b0;
-    // end
+    // assign cal_done = ({westin_rd_en[3],westin_rd_en[2]} == 2'b10) ? 1'b1 : 1'b0;
+    always @(posedge clk or negedge sys_rst_n) begin
+        if(!sys_rst_n)
+            cal_done <= 1'b0;
+        else if({cal_en,westin_rd_en[1]} == 2'b10)
+            cal_done <= 1'b1;
+        else
+            cal_done <= 1'b0;
+    end
 
     //out
-    reg [(3*N-X-2):1] cal_delay;
+    reg [(3*N-3):1] cal_delay;
     always @(posedge clk or negedge sys_rst_n) begin
         if(!sys_rst_n)
             cal_delay <= 0;
         else begin
-            cal_delay <= {cal_delay[(3*N-X-1):1],westin_rd_en[X]};
+            cal_delay <= {cal_delay[(3*N-3):1],westin_rd_en[1]};
         end   
     end
 
-    //out_rd_en[1]总计3N-X-1级延迟
+    //out_rd_en[1]总计3N-2级延迟
     always @(posedge clk or negedge sys_rst_n) begin
         if(!sys_rst_n)
             out_rd_en[1] <= 1'b0;
         else      
-            out_rd_en[1] <= cal_delay[3*N-X-2];  
+            out_rd_en[1] <= cal_delay[3*N-3];  
     end
 
     genvar i_delay;

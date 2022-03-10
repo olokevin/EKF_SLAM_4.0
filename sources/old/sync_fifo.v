@@ -48,7 +48,7 @@ module sync_fifo
     always @(posedge clk or negedge sys_rst_n) begin
         if(!sys_rst_n)  begin
             for(i_wr_addr=0; i_wr_addr<DEPTH; i_wr_addr=i_wr_addr+1) begin
-                fifo[i_wr_addr] <= '0;
+                fifo[i_wr_addr] <= 0;
             end
         end
         else if(wr_en && full == 0)  begin
